@@ -2,17 +2,20 @@ package com.talk.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
+@Data
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
+@DynamicUpdate
 @Builder
-public class MemberGroup implements Serializable {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class ChatRoomMembers implements Serializable {
     @Id
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
@@ -22,9 +25,9 @@ public class MemberGroup implements Serializable {
     @Id
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_id")
-    Group group;
+    @JoinColumn(name = "chatroom_id")
+    ChatRoom chatRoom;
 
-    private String join_date;
-
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt;
 }
