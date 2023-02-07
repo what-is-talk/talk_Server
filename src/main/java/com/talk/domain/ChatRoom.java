@@ -36,7 +36,7 @@ public class ChatRoom {
 //    private Set<Member> chatRoomMembers = new HashSet<>();
 
     @JsonBackReference
-    @OneToMany(mappedBy = "chatroom")
+    @OneToMany(mappedBy = "chatRoom")
     private List<ChatRoomMembers> chatroom_members;
 
     @Column(name = "createdAt")
