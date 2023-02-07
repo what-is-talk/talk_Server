@@ -26,8 +26,14 @@ public class Users extends BaseTime implements UserDetails {
     @Column
     private String email;
 
-    @Column
+    @Column(name="PASS_WORD")
     private String password;
+
+    @Column(name="USERNAME")
+    private String name;
+
+    @Column
+    private String profile_image;
 
     @Column
     @ElementCollection(fetch = FetchType.EAGER)
@@ -57,4 +63,5 @@ public class Users extends BaseTime implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+
 }
