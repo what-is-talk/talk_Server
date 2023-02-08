@@ -1,6 +1,7 @@
 package com.talk.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.talk.domain.enumpack.Color;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member {
+public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -20,13 +21,22 @@ public class Member {
 
     private String name;
 
+    @Column(unique = true)
     private String email;
+
+    private Color personalColor;
+
+    private String profileImage;
 
     @JsonBackReference
     @OneToMany(mappedBy = "member")
-    private List<MemberGroup> member_groups;
+    private List<MemberMeeting> memberMeetings;
 
     @JsonBackReference
     @OneToOne(mappedBy = "leader")
-    private Group groupOfLeader;
+    private Meeting meetingOfLeader;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "member")
+    private List<MemberChatroom> memberChatrooms;
 }

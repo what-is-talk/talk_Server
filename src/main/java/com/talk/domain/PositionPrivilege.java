@@ -12,19 +12,16 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberGroup implements Serializable {
+public class PositionPrivilege extends BaseTimeEntity implements Serializable {
     @Id
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    Member member;
+    @JoinColumn(name = "position_id")
+    private Position position;
 
     @Id
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_id")
-    Group group;
-
-    private String join_date;
-
+    @JoinColumn(name = "privilege_id")
+    private Privilege privilege;
 }
