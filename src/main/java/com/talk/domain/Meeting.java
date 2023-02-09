@@ -3,7 +3,6 @@ package com.talk.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
-import com.talk.domain.enumpack.Color;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,10 +27,6 @@ public class Meeting extends BaseTimeEntity{
     @Column
     @NotNull
     private String invite_code;
-
-    @Column
-    @NotNull
-    private Color color;
 
     @JsonBackReference
     @OneToMany(mappedBy = "meeting")
