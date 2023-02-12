@@ -1,6 +1,6 @@
 package com.talk.security;
 
-import com.talk.enums.AuthProvider;
+import com.talk.domain.enumpack.AuthProvider;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
