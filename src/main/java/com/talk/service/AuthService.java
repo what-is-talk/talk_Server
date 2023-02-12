@@ -35,7 +35,7 @@ public class AuthService {
         return kakaoRequestService.join(multipartFile, signUpRequest);
     }
 
-    public KakaoUserInfo info(String token) {return kakaoRequestService.getUserInfo(token) };
+    public KakaoUserInfo info(String token) {return kakaoRequestService.getUserInfo(token); };
 
     public String redirect(TokenRequest tokenRequest){
         if(AuthProvider.KAKAO.getAuthProvider().equals(tokenRequest.getRegistrationId())) {

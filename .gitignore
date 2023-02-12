@@ -6,7 +6,9 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 .idea
-application-aws.properties
+src/main/resources/application-aws.properties
+application-oauth2.yml
+application-secret.properties
 
 # User-specific stuff
 .idea/**/workspace.xml
