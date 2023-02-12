@@ -2,6 +2,8 @@ package com.talk.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.talk.domain.enumpack.Color;
+import com.talk.domain.enumpack.AuthProvider;
+import com.talk.domain.enumpack.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,10 +14,9 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Member extends BaseTimeEntity{
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     @Column(name = "member_id")
     private Long id;
 
@@ -28,6 +29,10 @@ public class Member extends BaseTimeEntity{
 
     private String profileImage;
 
+    private Role role;
+
+    private AuthProvider authProvider;
+
     @JsonBackReference
     @OneToMany(mappedBy = "member")
     private List<MemberMeeting> memberMeetings;
@@ -39,4 +44,14 @@ public class Member extends BaseTimeEntity{
     @JsonBackReference
     @OneToMany(mappedBy = "member")
     private List<MemberChatroom> memberChatrooms;
+
+    @Builder
+    public Member(Long id, String email, String name, String profileImage , Role role, AuthProvider authProvider) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.profileImage = profileImage;
+        this.role = role;
+        this.authProvider = authProvider;
+    }
 }
