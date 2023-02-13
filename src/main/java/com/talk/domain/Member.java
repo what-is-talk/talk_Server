@@ -45,6 +45,10 @@ public class Member extends BaseTimeEntity{
     @OneToMany(mappedBy = "member")
     private List<MemberChatroom> memberChatrooms;
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "member")
+    private List<MemberPosition> memberPositions;
+
     @Builder
     public Member(Long id, String email, String name, String profileImage , Role role, AuthProvider authProvider) {
         this.id = id;
