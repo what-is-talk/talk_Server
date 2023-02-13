@@ -1,11 +1,8 @@
-package com.talk.login.dto.response;
+package com.talk.dto.response;
 
-import com.talk.enums.AuthProvider;
-import com.talk.login.dto.KakaoUserInfo;
+import com.talk.domain.enumpack.AuthProvider;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.HashMap;
 
 @Getter
 public class SignInResponse {

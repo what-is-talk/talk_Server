@@ -8,6 +8,9 @@
 application-secret.properties
 
 .idea
+src/main/resources/application-aws.properties
+application-oauth2.yml
+application-secret.properties
 
 # User-specific stuff
 .idea/**/workspace.xml

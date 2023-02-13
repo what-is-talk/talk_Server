@@ -2,7 +2,7 @@ package com.talk.security;
 
 
 
-//import com.talk.enums.AuthProvider;
+//import com.talk.domain.enumpack.AuthProvider;
 //import com.talk.lib.BadRequestException;
 //import com.talk.login.repository.UsersRepository;
 //import lombok.RequiredArgsConstructor;

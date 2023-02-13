@@ -1,4 +1,4 @@
-package com.talk.entity;
+package com.talk.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseTime {
+public abstract class BaseTimeEntity {
 
     @CreatedDate
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
     @LastModifiedDate
     private LocalDateTime modifiedDate;

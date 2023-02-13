@@ -1,11 +1,11 @@
-package com.talk.login.controller;
+package com.talk.controller;
 
 
-import com.talk.login.dto.KakaoUserInfo;
-import com.talk.login.dto.request.SignUpRequest;
-import com.talk.login.dto.request.TokenRequest;
-import com.talk.login.dto.response.SignInResponse;
-import com.talk.login.service.AuthService;
+import com.talk.dto.KakaoUserInfo;
+import com.talk.dto.request.SignUpRequest;
+import com.talk.dto.request.TokenRequest;
+import com.talk.dto.response.SignInResponse;
+import com.talk.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

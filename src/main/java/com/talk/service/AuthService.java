@@ -1,25 +1,23 @@
-package com.talk.login.service;
+package com.talk.service;
 
-import com.talk.enums.AuthProvider;
+import com.talk.domain.enumpack.AuthProvider;
 import com.talk.lib.BadRequestException;
-import com.talk.login.dto.KakaoUserInfo;
-import com.talk.login.dto.request.SignUpRequest;
-import com.talk.login.dto.request.TokenRequest;
-import com.talk.login.dto.response.SignInResponse;
-import com.talk.login.repository.UsersRepository;
+import com.talk.dto.KakaoUserInfo;
+import com.talk.dto.request.SignUpRequest;
+import com.talk.dto.request.TokenRequest;
+import com.talk.dto.response.SignInResponse;
+import com.talk.domain.MemberRepository;
 import com.talk.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final KakaoRequestService kakaoRequestService;
-    private final UsersRepository usersRepository;
+    private final MemberRepository memberRepository;
     private final SecurityUtil securityUtil;
 
 //    public SignInResponse redirect(TokenRequest tokenRequest){

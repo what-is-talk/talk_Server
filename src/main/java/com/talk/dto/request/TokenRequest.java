@@ -1,4 +1,4 @@
-package com.talk.login.dto.request;
+package com.talk.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

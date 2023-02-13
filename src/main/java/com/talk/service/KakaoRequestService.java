@@ -1,17 +1,15 @@
-package com.talk.login.service;
+package com.talk.service;
 
-import com.talk.entity.Users;
-import com.talk.enums.AuthProvider;
+import com.talk.domain.Member;
+import com.talk.domain.enumpack.AuthProvider;
 //import com.talk.login.controller.UsersController;
-import com.talk.enums.Role;
-import com.talk.lib.BadRequestException;
-import com.talk.login.controller.AuthController;
-import com.talk.login.dto.KakaoUserInfo;
-import com.talk.login.dto.request.SignUpRequest;
-import com.talk.login.dto.request.TokenRequest;
-import com.talk.login.dto.response.SignInResponse;
-import com.talk.login.dto.response.TokenResponse;
-import com.talk.login.repository.UsersRepository;
+import com.talk.domain.enumpack.Role;
+import com.talk.dto.KakaoUserInfo;
+import com.talk.dto.request.SignUpRequest;
+import com.talk.dto.request.TokenRequest;
+import com.talk.dto.response.SignInResponse;
+import com.talk.dto.response.TokenResponse;
+import com.talk.domain.MemberRepository;
 import com.talk.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Map;
-
 
 @Service
 @RequiredArgsConstructor
 public class KakaoRequestService implements RequestService {
-    private final UsersRepository usersRepository;
+    private final MemberRepository memberRepository;
     private final SecurityUtil securityUtil;
     private final WebClient webClient;
 
@@ -50,8 +46,8 @@ public class KakaoRequestService implements RequestService {
     public SignInResponse login(String token) {
         KakaoUserInfo kakaoUserInfo = getUserInfo(token);
 
-        if (usersRepository.existsById(kakaoUserInfo.getId())) {
-            Users member = usersRepository.findById(kakaoUserInfo.getId()).get();
+        if (memberRepository.existsById(kakaoUserInfo.getId())) {
+            Member member = memberRepository.findById(kakaoUserInfo.getId()).get();
             String accessToken = securityUtil.createAccessToken(
                     String.valueOf(kakaoUserInfo.getId()), AuthProvider.KAKAO, token);
             return SignInResponse.builder()
@@ -75,7 +71,7 @@ public class KakaoRequestService implements RequestService {
 
     public SignInResponse join(MultipartFile multipartFile, SignUpRequest signUpRequest) {
 
-        if (usersRepository.findByEmail(signUpRequest.getEmail()).orElse(null) != null) {
+        if (memberRepository.findByEmail(signUpRequest.getEmail()).orElse(null) != null) {
             return SignInResponse.builder()
                     .authProvider(AuthProvider.KAKAO)
                     .name(null)
@@ -87,10 +83,10 @@ public class KakaoRequestService implements RequestService {
 
             String imageUrl = multipartFile.getOriginalFilename();
 
-            Users member = Users.builder().id(kakaoUserInfo.getId()).email(signUpRequest.getEmail())
-                    .name(signUpRequest.getName()).profile_image(imageUrl)
+            Member member = Member.builder().id(kakaoUserInfo.getId()).email(signUpRequest.getEmail())
+                    .name(signUpRequest.getName()).profileImage(imageUrl)
                     .role(Role.USER).authProvider(AuthProvider.KAKAO).build();
-            usersRepository.save(member);
+            memberRepository.save(member);
 
             String accessToken = securityUtil.createAccessToken(
                     String.valueOf(kakaoUserInfo.getId()), AuthProvider.KAKAO, signUpRequest.getToken());

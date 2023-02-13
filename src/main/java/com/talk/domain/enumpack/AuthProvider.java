@@ -1,4 +1,4 @@
-package com.talk.enums;
+package com.talk.domain.enumpack;
 
 import java.util.Arrays;
 

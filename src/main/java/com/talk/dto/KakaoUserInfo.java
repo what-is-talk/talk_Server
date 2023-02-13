@@ -1,4 +1,4 @@
-package com.talk.login.dto;
+package com.talk.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
