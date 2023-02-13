@@ -25,6 +25,7 @@ public class Position extends BaseTimeEntity{
     @Column(unique = true, name = "name")
     private String name;
 
+    // TODO : ManyToOne 이 빠졌음 좀 더 알아봐야할 듯
     @Column(unique = true)
     @JsonManagedReference
     @JoinColumn(name = "meeting_id")

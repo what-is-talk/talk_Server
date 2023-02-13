@@ -47,4 +47,8 @@ public class Meeting extends BaseTimeEntity{
     @JsonBackReference
     @OneToMany(mappedBy = "meeting")
     private List<Chatroom> chatrooms;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "meeting")
+    private List<Schedule> schedules;
 }
