@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface MemberMeetingRepository extends JpaRepository<MemberMeeting, MemberMeetingID> {
 
-    @Query(value = "select i.meeting from MemberMeeting i where i.memberId = :memberId", nativeQuery = true)
-    List<Meeting> findByMemberId(Long memberId);
+    @Query(value = "select * from member_meeting i where i.member_id = :memberId", nativeQuery = true)
+    List<MemberMeeting> findByMemberId(Long memberId);
 
-    @Query(value = "select i from MemberMeeting i where i.meetingId = : groupId", nativeQuery = true)
+    @Query(value = "select * from member_meeting i where i.meeting_id = : groupId", nativeQuery = true)
     List<MemberMeeting> findByMeetingId(Long groupId);
 
 }

@@ -1,12 +1,16 @@
 package com.talk.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.talk.domain.Meeting;
 import com.talk.domain.MeetingRepository;
 import com.talk.domain.MemberMeeting;
 import com.talk.domain.MemberMeetingRepository;
 import com.talk.dto.response.HomeResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,22 +26,23 @@ public class HomeService {
     private final MeetingRepository meetingRepository;
 
 
-    public HomeResponse home(HashMap<String, Object> homeRequest) {
+    public HomeResponse home(HashMap<String, Object> homeRequest) throws JsonProcessingException {
 
         Integer memberCount;
-        List<JSONObject> groupList = new ArrayList<>();
+        List<String> groupList = new ArrayList<>();
 
-        List<Meeting> meetings = memberMeetingRepository.findByMemberId(Long.valueOf(String.valueOf(homeRequest.get("userId"))));
+        List<MemberMeeting> memberMeetings = memberMeetingRepository.findByMemberId(Long.valueOf(String.valueOf(homeRequest.get("userId"))));
 
-        for (Meeting el : meetings) {
-            memberCount = memberMeetingRepository.findByMeetingId(el.getId()).size();
+        for (MemberMeeting el : memberMeetings) {
+            memberCount = memberMeetings.size();
             Map<String, Object> map = new HashMap<>();
-            map.put("id", el.getId());
-            map.put("name", el.getName());
-            map.put("image_url", el.getGroupImageUrl());
+            map.put("id", el.getMeeting().getId());
+            map.put("name", el.getMeeting().getName());
+            map.put("image_url", el.getMeeting().getGroupImageUrl());
             map.put("member_count", memberCount);
 
-            JSONObject json =  new JSONObject(map);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(map);
 
             groupList.add(json);
         }

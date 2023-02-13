@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-///code 얻어서 accessToken 받기 위한 용도, 실제로는 프론트가 accessToken 줌
+//code 얻어서 accessToken 받기 위한 용도, 실제로는 프론트가 accessToken 줌
     @GetMapping("/login/oauth2/code/{registrationId}")
     public String redirect(
             @PathVariable("registrationId") String registrationId

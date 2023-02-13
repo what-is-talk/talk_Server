@@ -1,5 +1,6 @@
 package com.talk.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.talk.dto.response.HomeResponse;
 import com.talk.service.HomeService;
 import io.swagger.annotations.Api;
@@ -23,7 +24,7 @@ public class HelloController {
 
     @ApiOperation(value = "home리턴")
     @GetMapping("/home")
-    public HomeResponse home(@RequestBody HashMap<String, Object> homeRequest) {
+    public HomeResponse home(@RequestBody HashMap<String, Object> homeRequest) throws JsonProcessingException {
         return homeService.home(homeRequest);
     }
 
