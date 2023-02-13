@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@IdClass(MemberMeetingID.class)
 @Getter
 @Setter
 @RequiredArgsConstructor

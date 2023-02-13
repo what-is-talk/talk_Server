@@ -25,6 +25,9 @@ public class Meeting extends BaseTimeEntity{
     private String name;
 
     @Column
+    private String groupImageUrl;
+
+    @Column
     @NotNull
     private String invite_code;
 
