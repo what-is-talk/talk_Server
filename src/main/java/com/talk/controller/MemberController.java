@@ -22,7 +22,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @ApiOperation(value = "그룹의 멤버 리스트 반환")
-    @GetMapping("/")
+    @GetMapping
     public List<MemberListResponseDto> getMemberAll(@Valid @RequestParam Long groupId) {
         return memberService.getAllMemberListDto(groupId);
     }
@@ -41,9 +41,10 @@ public class MemberController {
     }
 
     @ApiOperation(value = "멤버 탈퇴")
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<?> withDrawMember(@Valid @RequestParam Long userId) {
         memberService.withDrawMember(userId);
         return ResponseEntity.ok().build();
     }
+
 }
