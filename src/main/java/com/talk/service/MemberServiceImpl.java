@@ -4,6 +4,7 @@ import com.talk.domain.*;
 import com.talk.dto.response.InviteCodeResponseDto;
 import com.talk.dto.response.MemberDetailResponseDto;
 import com.talk.dto.response.MemberListResponseDto;
+import com.talk.dto.response.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,16 +21,20 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
-    public List<MemberListResponseDto> getAllMemberListDto(Long meetingId) {
-        List<MemberListResponseDto> memberListResponseDtos = new ArrayList<>();
-        Meeting meeting = meetingRepository.findById(meetingId).get();
-        for (MemberMeeting memberMeeting : meeting.getMember_meetings()) {
-            MemberListResponseDto memberListResponseDto = MemberListResponseDto.builder()
-                    .member(memberMeeting.getMember())
-                    .build();
-            memberListResponseDtos.add(memberListResponseDto);
+    public MemberListResponseDto getAllMemberListDto(Long meetingId) {
+        List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
+        if (meetingRepository.findById(meetingId).isPresent()) {
+            Meeting meeting = meetingRepository.findById(meetingId).get();
+            for (MemberMeeting memberMeeting : meeting.getMember_meetings()) {
+                MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                        .member(memberMeeting.getMember())
+                        .build();
+                memberResponseDtos.add(memberResponseDto);
+            }
         }
-        return memberListResponseDtos;
+        return MemberListResponseDto.builder()
+                .memberResponseDtos(memberResponseDtos)
+                .build();
     }
 
     @Override

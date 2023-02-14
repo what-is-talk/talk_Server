@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Api(tags = {"member"})
 @RequestMapping("/member")
@@ -23,7 +22,7 @@ public class MemberController {
 
     @ApiOperation(value = "그룹의 멤버 리스트 반환")
     @GetMapping
-    public List<MemberListResponseDto> getMemberAll(@Valid @RequestParam Long groupId) {
+    public MemberListResponseDto getMemberAll(@Valid @RequestParam Long groupId) {
         return memberService.getAllMemberListDto(groupId);
     }
 
