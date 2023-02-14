@@ -6,7 +6,8 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ScheduleDetailRequestDto {
+public class ScheduleUpdateRequestDto {
+    private Long scheduleId;
     private String title;
     private String description;
     private LocalDateTime startDate;
@@ -17,6 +18,7 @@ public class ScheduleDetailRequestDto {
 
     public Schedule toEntity() {
         return Schedule.builder()
+                .id(scheduleId)
                 .title(title)
                 .description(description)
                 .startDate(startDate)
@@ -26,5 +28,4 @@ public class ScheduleDetailRequestDto {
                 .reminder(reminder)
                 .build();
     }
-
 }

@@ -2,13 +2,10 @@ package com.talk.dto.response;
 
 import com.talk.domain.Schedule;
 import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Getter
-public class ScheduleDetailResponseDto {
-    private final String groupName;
+public class ScheduleWholeElementResponse {
     private final Long scheduleId;
     private final String title;
     private final String description;
@@ -19,8 +16,7 @@ public class ScheduleDetailResponseDto {
     private final LocalDateTime reminder;
 
     @Builder
-    public ScheduleDetailResponseDto (Schedule schedule) {
-        this.groupName = schedule.getMeeting().getName();
+    public ScheduleWholeElementResponse (Schedule schedule) {
         this.scheduleId = schedule.getId();
         this.title = schedule.getTitle();
         this.description = schedule.getDescription();

@@ -1,6 +1,7 @@
 package com.talk.service;
 
-import com.talk.dto.request.ScheduleDetailRequestDto;
+import com.talk.dto.request.ScheduleCreateRequestDto;
+import com.talk.dto.request.ScheduleUpdateRequestDto;
 import com.talk.dto.response.ScheduleDetailResponseDto;
 import com.talk.dto.response.ScheduleWholeResponseDto;
 
@@ -9,7 +10,9 @@ public interface ScheduleService {
 
     ScheduleDetailResponseDto getDetailSchedule(Long scheduleId);
 
-    void makeSchedule(ScheduleDetailRequestDto scheduleDetailRequestDto);
+    Long makeSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto);
 
-//    void updateSchedule(Schedule schedule);
+    void updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto);
+
+    String deleteSchedule(Long scheduleId);
 }
