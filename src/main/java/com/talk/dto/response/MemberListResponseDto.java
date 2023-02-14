@@ -7,10 +7,10 @@ import java.util.List;
 
 @Getter
 public class MemberListResponseDto {
-    private final List<MemberResponseDto> groupList;
+    private final List<MemberResponseDto> memberList;
 
     @Builder
     public MemberListResponseDto (List<MemberResponseDto> memberResponseDtos) {
-        this.groupList = memberResponseDtos;
+        this.memberList = memberResponseDtos;
     }
 }
