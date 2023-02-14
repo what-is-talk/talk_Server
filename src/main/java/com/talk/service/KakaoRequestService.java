@@ -1,6 +1,10 @@
 package com.talk.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talk.domain.Member;
+import com.talk.domain.MemberMeeting;
+import com.talk.domain.MemberMeetingRepository;
 import com.talk.domain.enumpack.AuthProvider;
 //import com.talk.login.controller.UsersController;
 import com.talk.domain.enumpack.Role;
@@ -10,6 +14,8 @@ import com.talk.dto.request.TokenRequest;
 import com.talk.dto.response.SignInResponse;
 import com.talk.dto.response.TokenResponse;
 import com.talk.domain.MemberRepository;
+import com.talk.dto.response.VerifyResponse;
+import com.talk.lib.BadRequestException;
 import com.talk.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +27,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +39,8 @@ public class KakaoRequestService implements RequestService {
     private final MemberRepository memberRepository;
     private final SecurityUtil securityUtil;
     private final WebClient webClient;
+
+    private final MemberMeetingRepository memberMeetingRepository;
 
 
     @Value("${spring.security.oauth2.client.registration.kakao.authorization-grant-type}")
@@ -43,35 +56,59 @@ public class KakaoRequestService implements RequestService {
     private String TOKEN_URI;
 
     @Override
-    public SignInResponse login(String token) {
+    public SignInResponse login(String token) throws JsonProcessingException {
         KakaoUserInfo kakaoUserInfo = getUserInfo(token);
 
         if (memberRepository.existsById(kakaoUserInfo.getId())) {
             Member member = memberRepository.findById(kakaoUserInfo.getId()).get();
             String accessToken = securityUtil.createAccessToken(
                     String.valueOf(kakaoUserInfo.getId()), AuthProvider.KAKAO, token);
+
+            Integer memberCount;
+            List<String> groupList = new ArrayList<>();
+            List<MemberMeeting> memberMeetings = memberMeetingRepository.findByMemberId(member.getId());
+
+            for (MemberMeeting el : memberMeetings) {
+                List<MemberMeeting> memberMeetingList = memberMeetingRepository.findByMeetingId(el.getMeeting().getId());
+                memberCount = memberMeetingList.size();
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", el.getMeeting().getId());
+                map.put("name", el.getMeeting().getName());
+                map.put("image_url", el.getMeeting().getGroupImageUrl());
+                map.put("member_count", memberCount);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String json = objectMapper.writeValueAsString(map);
+
+                groupList.add(json);
+
+            }
             return SignInResponse.builder()
                     .authProvider(member.getAuthProvider())
                     .name(member.getName())
                     .id(member.getId())
                     .accessToken(accessToken)
+                    .groupList(groupList)
                     .build();
+
         } else {
             return SignInResponse.builder()
                     .authProvider(AuthProvider.KAKAO)
                     .name(null)
                     .id(null)
                     .accessToken(null)
+                    .groupList(null)
                     .build();
 
         }
-
-
     }
 
     public SignInResponse join(MultipartFile multipartFile, SignUpRequest signUpRequest) {
 
-        if (memberRepository.findByEmail(signUpRequest.getEmail()).orElse(null) != null) {
+        KakaoUserInfo kakaoUserInfo = getUserInfo(signUpRequest.getToken());
+
+
+        if (memberRepository.existsById(kakaoUserInfo.getId())) {
             return SignInResponse.builder()
                     .authProvider(AuthProvider.KAKAO)
                     .name(null)
@@ -79,11 +116,9 @@ public class KakaoRequestService implements RequestService {
                     .accessToken(null)
                     .build();
         } else {
-            KakaoUserInfo kakaoUserInfo = getUserInfo(signUpRequest.getToken());
-
             String imageUrl = multipartFile.getOriginalFilename();
 
-            Member member = Member.builder().id(kakaoUserInfo.getId()).email(signUpRequest.getEmail())
+            Member member = Member.builder().id(kakaoUserInfo.getId()).email(kakaoUserInfo.getKakaoAccountEmail())
                     .name(signUpRequest.getName()).profileImage(imageUrl)
                     .role(Role.USER).authProvider(AuthProvider.KAKAO).build();
             memberRepository.save(member);
@@ -99,6 +134,66 @@ public class KakaoRequestService implements RequestService {
                     .build();
         }
 
+    }
+
+    @Override
+    public SignInResponse entry(String token) throws JsonProcessingException {
+        if (securityUtil.isExpiration(token)) {
+            throw new BadRequestException("EXPIRED_ACCESS_TOKEN");
+        }
+
+        Long memberId;
+        String userId;
+        Integer memberCount;
+        List<String> groupList = new ArrayList<>();
+
+        userId = (String) securityUtil.get(token).get("userId");
+        memberId = Long.parseLong(userId);
+
+        Member member = memberRepository.findById(memberId).get();
+        List<MemberMeeting> memberMeetings = memberMeetingRepository.findByMemberId(member.getId());
+
+        for (MemberMeeting el : memberMeetings) {
+            List<MemberMeeting> memberMeetingList = memberMeetingRepository.findByMeetingId(el.getMeeting().getId());
+            memberCount = memberMeetingList.size();
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", el.getMeeting().getId());
+            map.put("name", el.getMeeting().getName());
+            map.put("image_url", el.getMeeting().getGroupImageUrl());
+            map.put("member_count", memberCount);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(map);
+
+            groupList.add(json);
+        }
+
+        return SignInResponse.builder()
+                .authProvider(member.getAuthProvider())
+                .name(member.getName())
+                .id(member.getId())
+                .accessToken(token)
+                .groupList(groupList)
+                .build();
+
+    }
+
+    @Override
+    public VerifyResponse verify(String token) {
+        if (securityUtil.isExpiration(token)) {
+            throw new BadRequestException("EXPIRED_ACCESS_TOKEN");
+        }
+
+        Long memberId;
+        String userId;
+
+        userId = (String) securityUtil.get(token).get("userId");
+        memberId = Long.parseLong(userId);
+
+        Member member = memberRepository.findById(memberId).get();
+
+        return VerifyResponse.builder().authProvider(member.getAuthProvider()).name(member.getName())
+                .id(member.getId()).accessToken(token).build();
     }
 
 

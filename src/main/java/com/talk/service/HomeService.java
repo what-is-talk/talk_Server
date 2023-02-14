@@ -34,7 +34,8 @@ public class HomeService {
         List<MemberMeeting> memberMeetings = memberMeetingRepository.findByMemberId(Long.valueOf(String.valueOf(homeRequest.get("userId"))));
 
         for (MemberMeeting el : memberMeetings) {
-            memberCount = memberMeetings.size();
+            List<MemberMeeting> memberMeetingList = memberMeetingRepository.findByMeetingId(el.getMeeting().getId());
+            memberCount = memberMeetingList.size();
             Map<String, Object> map = new HashMap<>();
             map.put("id", el.getMeeting().getId());
             map.put("name", el.getMeeting().getName());

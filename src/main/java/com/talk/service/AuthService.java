@@ -1,6 +1,8 @@
 package com.talk.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.talk.domain.enumpack.AuthProvider;
+import com.talk.dto.response.VerifyResponse;
 import com.talk.lib.BadRequestException;
 import com.talk.dto.KakaoUserInfo;
 import com.talk.dto.request.SignUpRequest;
@@ -27,7 +29,7 @@ public class AuthService {
 //        throw new BadRequestException("not supported oauth provider");
 //    }
 
-    public SignInResponse login(String token) {
+    public SignInResponse login(String token) throws JsonProcessingException {
         return kakaoRequestService.login(token);
     }
 
@@ -42,6 +44,14 @@ public class AuthService {
             return kakaoRequestService.getToken(tokenRequest).getAccessToken();
         }
         throw new BadRequestException("not supported oauth provider");
+    }
+
+    public SignInResponse entry(String token) throws JsonProcessingException {
+        return kakaoRequestService.entry(token);
+    }
+
+    public VerifyResponse verify(String token) {
+        return kakaoRequestService.verify(token);
     }
 
 }

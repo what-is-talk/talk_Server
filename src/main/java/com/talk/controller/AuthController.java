@@ -1,10 +1,12 @@
 package com.talk.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.talk.dto.KakaoUserInfo;
 import com.talk.dto.request.SignUpRequest;
 import com.talk.dto.request.TokenRequest;
 import com.talk.dto.response.SignInResponse;
+import com.talk.dto.response.VerifyResponse;
 import com.talk.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +50,7 @@ public class AuthController {
 //    }
 
     @PostMapping("/user/login")
-    public ResponseEntity<SignInResponse> login(@RequestBody Map<String, String> tokenMap) {
+    public ResponseEntity<SignInResponse> login(@RequestBody Map<String, String> tokenMap) throws JsonProcessingException {
         return ResponseEntity.ok(
                 authService.login(tokenMap.get("token"))
         );
@@ -67,6 +69,20 @@ public class AuthController {
     public ResponseEntity<KakaoUserInfo> info(@RequestBody Map<String, String> tokenMap) {
         return ResponseEntity.ok(
                 authService.info(tokenMap.get("token"))
+        );
+    }
+
+    @PostMapping("/entry")
+    public ResponseEntity<SignInResponse> entry(@RequestBody Map<String, String> tokenMap) throws JsonProcessingException {
+        return ResponseEntity.ok(
+                authService.entry(tokenMap.get("token"))
+        );
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<VerifyResponse> verify(@RequestBody Map<String, String> tokenMap) {
+        return ResponseEntity.ok(
+                authService.verify(tokenMap.get("token"))
         );
     }
 
