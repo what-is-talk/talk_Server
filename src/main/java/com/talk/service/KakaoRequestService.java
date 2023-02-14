@@ -1,5 +1,6 @@
 package com.talk.service;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.talk.domain.Member;
@@ -65,7 +66,7 @@ public class KakaoRequestService implements RequestService {
                     String.valueOf(kakaoUserInfo.getId()), AuthProvider.KAKAO, token);
 
             Integer memberCount;
-            List<String> groupList = new ArrayList<>();
+            List<Object> groupList = new ArrayList<>();
             List<MemberMeeting> memberMeetings = memberMeetingRepository.findByMemberId(member.getId());
 
             for (MemberMeeting el : memberMeetings) {
@@ -74,8 +75,8 @@ public class KakaoRequestService implements RequestService {
                 Map<String, Object> map = new HashMap<>();
                 map.put("id", el.getMeeting().getId());
                 map.put("name", el.getMeeting().getName());
-                map.put("image_url", el.getMeeting().getGroupImageUrl());
-                map.put("member_count", memberCount);
+                map.put("profileImage", el.getMeeting().getGroupImageUrl());
+                map.put("memberCount", memberCount);
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 String json = objectMapper.writeValueAsString(map);
@@ -145,7 +146,7 @@ public class KakaoRequestService implements RequestService {
         Long memberId;
         String userId;
         Integer memberCount;
-        List<String> groupList = new ArrayList<>();
+        List<Object> groupList = new ArrayList<>();
 
         userId = (String) securityUtil.get(token).get("userId");
         memberId = Long.parseLong(userId);
@@ -159,8 +160,8 @@ public class KakaoRequestService implements RequestService {
             Map<String, Object> map = new HashMap<>();
             map.put("id", el.getMeeting().getId());
             map.put("name", el.getMeeting().getName());
-            map.put("image_url", el.getMeeting().getGroupImageUrl());
-            map.put("member_count", memberCount);
+            map.put("profileImage", el.getMeeting().getGroupImageUrl());
+            map.put("memberCount", memberCount);
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(map);

@@ -1,5 +1,6 @@
 package com.talk.service;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,7 +30,7 @@ public class HomeService {
     public HomeResponse home(HashMap<String, Object> homeRequest) throws JsonProcessingException {
 
         Integer memberCount;
-        List<String> groupList = new ArrayList<>();
+        List<Object> groupList = new ArrayList<>();
 
         List<MemberMeeting> memberMeetings = memberMeetingRepository.findByMemberId(Long.valueOf(String.valueOf(homeRequest.get("userId"))));
 
@@ -39,8 +40,8 @@ public class HomeService {
             Map<String, Object> map = new HashMap<>();
             map.put("id", el.getMeeting().getId());
             map.put("name", el.getMeeting().getName());
-            map.put("image_url", el.getMeeting().getGroupImageUrl());
-            map.put("member_count", memberCount);
+            map.put("profileImage", el.getMeeting().getGroupImageUrl());
+            map.put("memberCount", memberCount);
 
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(map);
@@ -63,9 +64,9 @@ public class HomeService {
 
         HashMap<String, Object> map = new HashMap<>();
 
-        map.put("group_id", groupId);
-        map.put("group_name", meeting.getName());
-        map.put("member_count", memberCount);
+        map.put("groupId", groupId.get("groupId"));
+        map.put("groupName", meeting.getName());
+        map.put("memberCount", memberCount);
 
         return map;
 

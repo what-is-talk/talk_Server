@@ -17,10 +17,10 @@ public class SignInResponse {
 
     private String accessToken;
 
-    private List<String> groupList;
+    private List<Object> groupList;
 
     @Builder
-    public SignInResponse(AuthProvider authProvider, Long id, String name, String accessToken, List<String> groupList) {
+    public SignInResponse(AuthProvider authProvider, Long id, String name, String accessToken, List<Object> groupList) {
         this.authProvider = authProvider;
         this.id = id;
         this.name = name;

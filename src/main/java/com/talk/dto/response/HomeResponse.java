@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 public class HomeResponse {
 
-    List<String> groupList;
+    List<Object> groupList;
 
 }
