@@ -26,7 +26,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login/**", "/user", "/oauth2/**", "/auth/**", "/user/login", "/user/join", "/userinfo", "/home/**", "/member/**", "/schedule/**", "/meeting/**", "/entry", "/verify", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+                .antMatchers("/login/**", "/user", "/oauth2/**", "/auth/**", "/user/login", "/user/join", "/userinfo", "/home/**", "/member/**", "/schedule/**", "/meeting/**", "/position/**", "/entry", "/verify", "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

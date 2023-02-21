@@ -57,10 +57,9 @@ public class AuthController {
     }
 
     @PostMapping("/user/join")
-    public ResponseEntity<SignInResponse> join(@RequestPart(value = "ImageUrl", required = false) MultipartFile multipartFile,
-                                               @RequestPart(value = "signUpRequest") SignUpRequest signUpRequest) {
+    public ResponseEntity<SignInResponse> join(@RequestParam("file") MultipartFile multipartFile, @RequestParam("name") String name, @RequestParam("token") String token) {
         return ResponseEntity.ok(
-                authService.join(multipartFile, signUpRequest)
+                authService.join(multipartFile, name, token)
         );
     }
 

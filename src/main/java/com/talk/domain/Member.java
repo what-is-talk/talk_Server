@@ -39,7 +39,7 @@ public class Member extends BaseTimeEntity{
 
     @JsonBackReference
     @OneToMany(mappedBy = "leader")
-    private List<Meeting> meetings;
+    private List<Meeting> meetingsOfLeader;
 
     @JsonBackReference
     @OneToMany(mappedBy = "member")

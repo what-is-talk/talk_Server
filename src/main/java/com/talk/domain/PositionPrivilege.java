@@ -13,13 +13,17 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class PositionPrivilege extends BaseTimeEntity implements Serializable {
-    @Id
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "position_privilege_id")
+    private Long id;
+
     @JsonManagedReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
 
-    @Id
+
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "privilege_id")

@@ -12,7 +12,7 @@ public interface RequestService<T> {
 
     SignInResponse login(String token) throws JsonProcessingException;
 
-    SignInResponse join(MultipartFile multipartFile, SignUpRequest signUpRequest);
+    SignInResponse join(MultipartFile multipartFile, String name, String token);
 
     SignInResponse entry(String token) throws JsonProcessingException;
 
