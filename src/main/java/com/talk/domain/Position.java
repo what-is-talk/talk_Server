@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @Table
 public class Position extends BaseTimeEntity{
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "position_id")
     private Long id;
 

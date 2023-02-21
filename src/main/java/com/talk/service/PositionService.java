@@ -73,41 +73,31 @@ public class PositionService {
 
     public void positionCreation(PositionCreateRequest positionCreateRequest) {
 
-
-
         Meeting meeting = meetingRepository.findById(positionCreateRequest.getGroupId()).get();
+        List<Long> memberIdList = positionCreateRequest.getMemberList();
+        List<Long> privilegeIdList = positionCreateRequest.getPrivilegeList();
 
+        Position position = Position.builder().name(positionCreateRequest.getName()).meeting(meeting)
+                .color(positionCreateRequest.getColor()).build();
 
+        positionRepository.save(position);
 
-//        List<Object> memberList = (List<Object>) map.get("memberList");
-//        List<Object> privilegeList = (List<Object>) map.get("privilegeList");
-//        Meeting meeting = meetingRepository.findById((Long) map.get("groupId")).get();
-//
-//        Position position = Position.builder().name((String) map.get("name")).meeting(meeting)
-//                .color(Color.valueOf(map.get("color").toString())).build();
-//
-//        for (int i = 0; i < memberList.size(); i++) {
-//            JSONObject memberListEl = new JSONObject(memberList.get(i).toString());
-//            Long memberId = Long.valueOf(memberListEl.get("memberId").toString());
-//            Member member = memberRepository.findById(memberId).get();
-//            MemberPosition memberPosition = MemberPosition.builder().member(member).position(position).build();
-//            memberPositionRepository.save(memberPosition);
-//        }
-//
-//        for (int i = 0; i < privilegeList.size(); i++) {
-//            JSONObject privilegeListEl = new JSONObject(privilegeList.get(i).toString());
-//            Long privilegeId = Long.valueOf(privilegeListEl.get("privilegeId").toString());
-//            Privilege privilege = privilegeRepository.findById(privilegeId).get();
-//            PositionPrivilege positionPrivilege = PositionPrivilege.builder().position(position).privilege(privilege).build();
-//            positionPrivilegeRepository.save(positionPrivilege);
-//        }
-//
-//        positionRepository.save(position);
+        for (Long memberId : memberIdList) {
+            Member member = memberRepository.findById(memberId).get();
+            MemberPosition memberPosition = MemberPosition.builder().member(member).position(position).build();
+            memberPositionRepository.save(memberPosition);
+        }
+
+        for (Long privilegeId : privilegeIdList) {
+            Privilege privilege = privilegeRepository.findById(privilegeId).get();
+            PositionPrivilege positionPrivilege = PositionPrivilege.builder().position(position).privilege(privilege).build();
+            positionPrivilegeRepository.save(positionPrivilege);
+        }
 
     }
 
 
-    public void positionModify(PositionModify positionModify) { // 원래 그 역할에 있는 멤버는 예외처리
+    public void positionModify(PositionModify positionModify) {
 
         Position position = positionRepository.findById(positionModify.getPositionId()).get();
 
@@ -121,14 +111,19 @@ public class PositionService {
 
         for (Long memberId : memberList) {
             Member member = memberRepository.findById(memberId).get();
-            MemberPosition memberPosition = MemberPosition.builder().member(member).position(position).build();
-            memberPositionRepository.save(memberPosition);
+            if (!memberPositionRepository.existsByMemberAndPosition(member, modifiedPosition)) {
+                MemberPosition memberPosition = MemberPosition.builder().member(member).position(position).build();
+                memberPositionRepository.save(memberPosition);
+            }
+
         }
 
         for (Long privilegeId : privilegeList) {
             Privilege privilege = privilegeRepository.findById(privilegeId).get();
-            PositionPrivilege positionPrivilege = PositionPrivilege.builder().position(position).privilege(privilege).build();
-            positionPrivilegeRepository.save(positionPrivilege);
+            if (!positionPrivilegeRepository.existsByPositionAndPrivilege(modifiedPosition, privilege)) {
+                PositionPrivilege positionPrivilege = PositionPrivilege.builder().position(position).privilege(privilege).build();
+                positionPrivilegeRepository.save(positionPrivilege);
+            }
         }
 
     }

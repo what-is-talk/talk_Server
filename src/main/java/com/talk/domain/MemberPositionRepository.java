@@ -11,6 +11,6 @@ public interface MemberPositionRepository extends JpaRepository<MemberPosition, 
 
     Optional<MemberPosition> findByMemberId(Long memberId);
 
-    boolean existsByMemberIdAndPositionId(Long memberId, Long positionId);
+    boolean existsByMemberAndPosition(Member member, Position position);
 
 }

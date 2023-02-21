@@ -8,4 +8,6 @@ public interface PositionPrivilegeRepository extends JpaRepository<PositionPrivi
 
     List<PositionPrivilege> findByPositionId(Long positionId);
 
+    boolean existsByPositionAndPrivilege(Position position, Privilege privilege);
+
 }
