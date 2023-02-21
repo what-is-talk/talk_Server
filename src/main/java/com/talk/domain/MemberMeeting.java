@@ -7,20 +7,22 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@IdClass(MemberMeetingID.class)
 @Getter
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MemberMeeting extends BaseTimeEntity implements Serializable {
-    @Id
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_meeting_id")
+    Long id;
+
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     Member member;
 
-    @Id
     @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "meeting_id")

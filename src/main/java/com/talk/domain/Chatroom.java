@@ -9,11 +9,11 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @Entity
 @DynamicUpdate
 @Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Chatroom extends BaseTimeEntity{

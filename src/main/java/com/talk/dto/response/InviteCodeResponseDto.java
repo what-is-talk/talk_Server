@@ -12,6 +12,6 @@ public class InviteCodeResponseDto {
     @Builder
     public InviteCodeResponseDto (Meeting meeting) {
         groupName = meeting.getName();
-        inviteCode = meeting.getInvite_code();
+        inviteCode = meeting.getInviteCode();
     }
 }

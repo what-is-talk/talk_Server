@@ -29,15 +29,14 @@ public class Meeting extends BaseTimeEntity{
     private String groupImageUrl;
 
     @Column
-    @NotNull
-    private String invite_code;
+    private String inviteCode;
 
     @JsonBackReference
     @OneToMany(mappedBy = "meeting")
-    private List<MemberMeeting> member_meetings;
+    private List<MemberMeeting> memberMeetings;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "leader_id")
     private Member leader;
 
@@ -52,4 +51,36 @@ public class Meeting extends BaseTimeEntity{
     @JsonBackReference
     @OneToMany(mappedBy = "meeting")
     private List<Schedule> schedules;
+
+    @Override
+    public String toString() {
+        String ret =  "Meeting{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", groupImageUrl='" + groupImageUrl + '\'' +
+                ", inviteCode='" + inviteCode + '\'' +
+                ", memberMeetings(가입된 멤버 id)= [";
+                for (MemberMeeting memberMeeting : memberMeetings) {
+                    ret += memberMeeting.getMember().getId() + ", ";
+                }
+                ret += "]";
+                ret += ", leader id=" + leader.getId() +
+                ", positions(역할)= [";
+                for (Position position : positions) {
+                    ret += "id: " + position.getId() + " name: " + position.getName() + ", ";
+                }
+                ret += "]";
+                ret += ", chatrooms(채팅방 id)= [";
+                for (Chatroom chatroom : chatrooms) {
+                    ret += chatroom.getId() + ", ";
+                }
+                ret += "]";
+                ret += ", schedules(일정 id)= [";
+                for (Schedule schedule : schedules) {
+                    ret += schedule.getId() + ", ";
+                }
+                ret += "]" +
+                '}';
+                return ret;
+    }
 }
