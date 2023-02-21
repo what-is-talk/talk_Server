@@ -39,7 +39,7 @@ public class Member extends BaseTimeEntity{
 
     @JsonBackReference
     @OneToMany(mappedBy = "leader")
-    private List<Meeting> meetingOfLeader;
+    private List<Meeting> meetingsOfLeader;
 
     @JsonBackReference
     @OneToMany(mappedBy = "member")
@@ -50,11 +50,12 @@ public class Member extends BaseTimeEntity{
     private List<MemberPosition> memberPositions;
 
     @Builder
-    public Member(Long id, String email, String name, String profileImage , Role role, AuthProvider authProvider) {
+    public Member(Long id, String email, String name, String profileImage, Color personalColor, Role role, AuthProvider authProvider) {
         this.id = id;
         this.email = email;
         this.name = name;
         this.profileImage = profileImage;
+        this.personalColor = personalColor;
         this.role = role;
         this.authProvider = authProvider;
     }

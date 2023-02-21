@@ -1,6 +1,5 @@
 package com.talk.controller;
 
-import com.talk.dto.response.InviteCodeResponseDto;
 import com.talk.dto.response.MemberDetailResponseDto;
 import com.talk.dto.response.MemberListResponseDto;
 import com.talk.service.MemberService;
@@ -20,10 +19,16 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @ApiOperation(value = "모든 멤버 리스트 반환 테스트용")
+    @GetMapping("/all")
+    public MemberListResponseDto getMemberAll() {
+        return memberService.getAllMemberList();
+    }
+
     @ApiOperation(value = "그룹의 멤버 리스트 반환")
     @GetMapping
     public MemberListResponseDto getMemberAll(@Valid @RequestParam Long groupId) {
-        return memberService.getAllMemberListDto(groupId);
+        return memberService.getAllMemberListofMeeting(groupId);
     }
 
     @ApiOperation(value = "멤버 개인 페이지")
@@ -33,16 +38,18 @@ public class MemberController {
         return memberService.getMemberDetail(userId, groupId);
     }
 
-    @ApiOperation(value = "멤버 초대 코드")
-    @GetMapping("/invite")
-    public InviteCodeResponseDto getGroupInviteCode (@Valid @RequestParam Long groupId) {
-        return memberService.getInviteCode(groupId);
-    }
-
     @ApiOperation(value = "멤버 탈퇴")
     @DeleteMapping
     public ResponseEntity<?> withDrawMember(@Valid @RequestParam Long userId) {
         memberService.withDrawMember(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @ApiOperation(value = "멤버 가입 테스트용 사용 금지")
+    @PostMapping
+    public ResponseEntity<?> joinMember(@Valid @RequestParam String name,
+                                        @Valid @RequestParam String email) {
+        memberService.joinMemberTest(name, email);
         return ResponseEntity.ok().build();
     }
 
