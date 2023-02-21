@@ -13,15 +13,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class MemberPosition extends BaseTimeEntity implements Serializable {
-    @Id
+
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "member_position_id")
+    private Long id;
+
     @JsonManagedReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "member_id")
     Member member;
 
-    @Id
+
     @JsonManagedReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "Position_id")
     Position position;
 

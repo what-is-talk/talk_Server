@@ -33,8 +33,8 @@ public class AuthService {
         return kakaoRequestService.login(token);
     }
 
-    public SignInResponse join(MultipartFile multipartFile, SignUpRequest signUpRequest) {
-        return kakaoRequestService.join(multipartFile, signUpRequest);
+    public SignInResponse join(MultipartFile multipartFile, String name, String token) {
+        return kakaoRequestService.join(multipartFile, name, token);
     }
 
     public KakaoUserInfo info(String token) {return kakaoRequestService.getUserInfo(token); };

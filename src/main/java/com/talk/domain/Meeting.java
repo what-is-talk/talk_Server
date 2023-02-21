@@ -37,7 +37,7 @@ public class Meeting extends BaseTimeEntity{
     private List<MemberMeeting> member_meetings;
 
     @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "leader_id")
     private Member leader;
 

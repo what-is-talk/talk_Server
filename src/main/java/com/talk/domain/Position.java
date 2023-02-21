@@ -2,6 +2,7 @@ package com.talk.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.talk.domain.enumpack.Color;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,23 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table (uniqueConstraints = {
-            @UniqueConstraint(
-                    name = "roll_unique",
-                    columnNames = {"meeting", "name"})})
+@Table
 public class Position extends BaseTimeEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "position_id")
     private Long id;
 
-    @Column(unique = true, name = "name")
+    @Column(name = "name")
     private String name;
 
     // TODO : ManyToOne 이 빠졌음 좀 더 알아봐야할 듯
-    @Column(unique = true)
     @JsonManagedReference
+    @ManyToOne
     @JoinColumn(name = "meeting_id")
-    private Long meeting;
+    private Meeting meeting;
 
     @JsonBackReference
     @OneToMany(mappedBy = "position")
@@ -38,4 +36,6 @@ public class Position extends BaseTimeEntity{
     @JsonBackReference
     @OneToMany(mappedBy = "position")
     private List<PositionPrivilege> positionPrivileges;
+
+    private Color color;
 }

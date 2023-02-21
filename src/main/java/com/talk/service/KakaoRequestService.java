@@ -104,9 +104,9 @@ public class KakaoRequestService implements RequestService {
         }
     }
 
-    public SignInResponse join(MultipartFile multipartFile, SignUpRequest signUpRequest) {
+    public SignInResponse join(MultipartFile multipartFile, String name, String token) {
 
-        KakaoUserInfo kakaoUserInfo = getUserInfo(signUpRequest.getToken());
+        KakaoUserInfo kakaoUserInfo = getUserInfo(token);
 
 
         if (memberRepository.existsById(kakaoUserInfo.getId())) {
@@ -120,12 +120,12 @@ public class KakaoRequestService implements RequestService {
             String imageUrl = multipartFile.getOriginalFilename();
 
             Member member = Member.builder().id(kakaoUserInfo.getId()).email(kakaoUserInfo.getKakaoAccountEmail())
-                    .name(signUpRequest.getName()).profileImage(imageUrl)
+                    .name(name).profileImage(imageUrl)
                     .role(Role.USER).authProvider(AuthProvider.KAKAO).build();
             memberRepository.save(member);
 
             String accessToken = securityUtil.createAccessToken(
-                    String.valueOf(kakaoUserInfo.getId()), AuthProvider.KAKAO, signUpRequest.getToken());
+                    String.valueOf(kakaoUserInfo.getId()), AuthProvider.KAKAO, token);
 
             return SignInResponse.builder()
                     .authProvider(member.getAuthProvider())
