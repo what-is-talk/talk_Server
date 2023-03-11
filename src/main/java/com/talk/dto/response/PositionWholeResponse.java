@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Builder
-public class PositionWholeResponseDto {
+public class PositionWholeResponse {
 
-    private List<PositionResponseDto> positionList;
+    private List<PositionResponse> positionList;
 
 }

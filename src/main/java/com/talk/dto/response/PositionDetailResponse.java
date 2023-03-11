@@ -12,7 +12,7 @@ public class PositionDetailResponse {
 
     private String name;
     private Color color;
-    private List<PositionMemberElementDto> memberList;
-    private List<PrivilegeListElementDto> privilegeList;
+    private List<PositionMemberElement> memberList;
+    private List<PrivilegeListElement> privilegeList;
 
 }

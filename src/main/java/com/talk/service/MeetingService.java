@@ -2,7 +2,7 @@ package com.talk.service;
 
 import com.talk.domain.Meeting;
 import com.talk.dto.request.MeetingCreateRequest;
-import com.talk.dto.response.InviteCodeResponseDto;
+import com.talk.dto.response.InviteCodeResponse;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface MeetingService {
 
     void createMeeting(MeetingCreateRequest meetingCreateRequest);
 
-    InviteCodeResponseDto getInviteCode(Long meetingId);
+    InviteCodeResponse getInviteCode(Long meetingId);
 
     void deleteMeeting(Long meetingId);
 

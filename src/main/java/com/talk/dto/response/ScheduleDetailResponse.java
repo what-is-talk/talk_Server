@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ScheduleDetailResponseDto {
+public class ScheduleDetailResponse {
     private final String groupName;
     private final Long scheduleId;
     private final String title;
@@ -19,7 +19,7 @@ public class ScheduleDetailResponseDto {
     private final LocalDateTime reminder;
 
     @Builder
-    public ScheduleDetailResponseDto (Schedule schedule) {
+    public ScheduleDetailResponse(Schedule schedule) {
         this.groupName = schedule.getMeeting().getName();
         this.scheduleId = schedule.getId();
         this.title = schedule.getTitle();

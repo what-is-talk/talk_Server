@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PositionMemberElementDto {
+public class PositionMemberElement {
 
     private Long memberId;
     private String memberName;

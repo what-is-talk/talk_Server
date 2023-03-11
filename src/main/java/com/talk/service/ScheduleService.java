@@ -1,18 +1,18 @@
 package com.talk.service;
 
-import com.talk.dto.request.ScheduleCreateRequestDto;
-import com.talk.dto.request.ScheduleUpdateRequestDto;
-import com.talk.dto.response.ScheduleDetailResponseDto;
-import com.talk.dto.response.ScheduleWholeResponseDto;
+import com.talk.dto.request.ScheduleCreateRequest;
+import com.talk.dto.request.ScheduleUpdateRequest;
+import com.talk.dto.response.ScheduleDetailResponse;
+import com.talk.dto.response.ScheduleWholeResponse;
 
 public interface ScheduleService {
-    ScheduleWholeResponseDto getWholeSchedule(Long meetingId, Long year);
+    ScheduleWholeResponse getWholeSchedule(Long meetingId, Long year);
 
-    ScheduleDetailResponseDto getDetailSchedule(Long scheduleId);
+    ScheduleDetailResponse getDetailSchedule(Long scheduleId);
 
-    Long makeSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto);
+    Long makeSchedule(ScheduleCreateRequest scheduleCreateRequest);
 
-    void updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto);
+    void updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest);
 
     String deleteSchedule(Long scheduleId);
 }

@@ -1,7 +1,7 @@
 package com.talk.controller;
 
-import com.talk.dto.response.MemberDetailResponseDto;
-import com.talk.dto.response.MemberListResponseDto;
+import com.talk.dto.response.MemberDetailResponse;
+import com.talk.dto.response.MemberListResponse;
 import com.talk.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,20 +21,20 @@ public class MemberController {
 
     @ApiOperation(value = "모든 멤버 리스트 반환 테스트용")
     @GetMapping("/all")
-    public MemberListResponseDto getMemberAll() {
+    public MemberListResponse getMemberAll() {
         return memberService.getAllMemberList();
     }
 
     @ApiOperation(value = "그룹의 멤버 리스트 반환")
     @GetMapping
-    public MemberListResponseDto getMemberAll(@Valid @RequestParam Long groupId) {
+    public MemberListResponse getMemberAll(@Valid @RequestParam Long groupId) {
         return memberService.getAllMemberListofMeeting(groupId);
     }
 
     @ApiOperation(value = "멤버 개인 페이지")
     @GetMapping("/detail")
-    public MemberDetailResponseDto getMemberDetail (@Valid @RequestParam Long userId,
-                                                    @Valid @RequestParam Long groupId) {
+    public MemberDetailResponse getMemberDetail (@Valid @RequestParam Long userId,
+                                                 @Valid @RequestParam Long groupId) {
         return memberService.getMemberDetail(userId, groupId);
     }
 

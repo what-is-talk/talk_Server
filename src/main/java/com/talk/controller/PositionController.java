@@ -3,10 +3,9 @@ package com.talk.controller;
 import com.talk.dto.PositionModify;
 import com.talk.dto.request.PositionCreateRequest;
 import com.talk.dto.response.PositionDetailResponse;
-import com.talk.dto.response.PositionWholeResponseDto;
+import com.talk.dto.response.PositionWholeResponse;
 import com.talk.service.PositionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ public class PositionController {
     private final PositionService positionService;
 
     @GetMapping("/position/home")
-    public ResponseEntity<PositionWholeResponseDto> positionHome(@RequestBody HashMap<String, Long> map) {
+    public ResponseEntity<PositionWholeResponse> positionHome(@RequestBody HashMap<String, Long> map) {
 
         return ResponseEntity.ok(
                 positionService.positionHome(map)

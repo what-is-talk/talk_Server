@@ -2,7 +2,7 @@ package com.talk.controller;
 
 import com.talk.domain.Meeting;
 import com.talk.dto.request.MeetingCreateRequest;
-import com.talk.dto.response.InviteCodeResponseDto;
+import com.talk.dto.response.InviteCodeResponse;
 import com.talk.service.MeetingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,7 +65,7 @@ public class MeetingController {
 
     @ApiOperation(value = "멤버 초대 코드")
     @GetMapping("/invite")
-    public InviteCodeResponseDto getGroupInviteCode (@Valid @RequestParam Long groupId) {
+    public InviteCodeResponse getGroupInviteCode (@Valid @RequestParam Long groupId) {
         return meetingService.getInviteCode(groupId);
     }
 }

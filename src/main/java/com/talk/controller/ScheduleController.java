@@ -1,9 +1,9 @@
 package com.talk.controller;
 
-import com.talk.dto.request.ScheduleCreateRequestDto;
-import com.talk.dto.request.ScheduleUpdateRequestDto;
-import com.talk.dto.response.ScheduleDetailResponseDto;
-import com.talk.dto.response.ScheduleWholeResponseDto;
+import com.talk.dto.request.ScheduleCreateRequest;
+import com.talk.dto.request.ScheduleUpdateRequest;
+import com.talk.dto.response.ScheduleDetailResponse;
+import com.talk.dto.response.ScheduleWholeResponse;
 import com.talk.service.ScheduleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,27 +23,27 @@ public class ScheduleController {
 
     @ApiOperation("캘린더 메인 페이지")
     @GetMapping
-    public ScheduleWholeResponseDto calenderMain(@Valid @RequestParam Long groupId, @Valid @RequestParam Long year) {
+    public ScheduleWholeResponse calenderMain(@Valid @RequestParam Long groupId, @Valid @RequestParam Long year) {
         return scheduleService.getWholeSchedule(groupId, year);
     }
 
     @ApiOperation("캘린더 상세 페이지")
     @GetMapping("/detail")
-    public ScheduleDetailResponseDto calenderDetail(@Valid @RequestParam Long scheduleId) {
+    public ScheduleDetailResponse calenderDetail(@Valid @RequestParam Long scheduleId) {
         return scheduleService.getDetailSchedule(scheduleId);
     }
 
     @ApiOperation("스케쥴 생성")
     @PostMapping("/detail")
-    public ResponseEntity<?> makeSchedule (@Valid @RequestBody ScheduleCreateRequestDto scheduleCreateRequestDto) {
-        scheduleService.makeSchedule(scheduleCreateRequestDto);
+    public ResponseEntity<?> makeSchedule (@Valid @RequestBody ScheduleCreateRequest scheduleCreateRequest) {
+        scheduleService.makeSchedule(scheduleCreateRequest);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation("스케쥴 수정")
     @PutMapping("/detail")
-    public ResponseEntity<?> updateSchedule (@Valid @RequestBody ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
-        scheduleService.updateSchedule(scheduleUpdateRequestDto);
+    public ResponseEntity<?> updateSchedule (@Valid @RequestBody ScheduleUpdateRequest scheduleUpdateRequest) {
+        scheduleService.updateSchedule(scheduleUpdateRequest);
         return ResponseEntity.ok().build();
     }
 

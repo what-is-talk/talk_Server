@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class InviteCodeResponseDto {
+public class InviteCodeResponse {
     private final String groupName;
     private final String inviteCode;
 
     @Builder
-    public InviteCodeResponseDto (Meeting meeting) {
+    public InviteCodeResponse(Meeting meeting) {
         groupName = meeting.getName();
         inviteCode = meeting.getInviteCode();
     }

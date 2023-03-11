@@ -4,11 +4,11 @@ import com.talk.domain.Meeting;
 import com.talk.domain.MeetingRepository;
 import com.talk.domain.Schedule;
 import com.talk.domain.ScheduleRepository;
-import com.talk.dto.request.ScheduleCreateRequestDto;
-import com.talk.dto.request.ScheduleUpdateRequestDto;
-import com.talk.dto.response.ScheduleDetailResponseDto;
+import com.talk.dto.request.ScheduleCreateRequest;
+import com.talk.dto.request.ScheduleUpdateRequest;
+import com.talk.dto.response.ScheduleDetailResponse;
 import com.talk.dto.response.ScheduleWholeElementResponse;
-import com.talk.dto.response.ScheduleWholeResponseDto;
+import com.talk.dto.response.ScheduleWholeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final MeetingRepository meetingRepository;
 
     @Override
-    public ScheduleWholeResponseDto getWholeSchedule(Long meetingId, Long year) {
+    public ScheduleWholeResponse getWholeSchedule(Long meetingId, Long year) {
         Long startYear = (year / 10) * 10;
         List<ScheduleWholeElementResponse> scheduleWholeElementResponses = new ArrayList<>();
         if (meetingRepository.findById(meetingId).isPresent()){ // TODO : 그룹이 없을 경우 예외처리 해야 함
@@ -37,7 +37,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                                 .schedule(schedule)
                                 .build());
             }
-            return ScheduleWholeResponseDto.builder()
+            return ScheduleWholeResponse.builder()
                     .startYear(startYear)
                     .groupName(meeting.getName())
                     .scheduleWholeElementResponses(scheduleWholeElementResponses)
@@ -49,29 +49,29 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleDetailResponseDto getDetailSchedule(Long scheduleId) {
-        ScheduleDetailResponseDto scheduleDetailResponseDto;
+    public ScheduleDetailResponse getDetailSchedule(Long scheduleId) {
+        ScheduleDetailResponse scheduleDetailResponse;
         if (scheduleRepository.findById(scheduleId).isPresent()) {
             Schedule schedule = scheduleRepository.findById(scheduleId).get();
-            scheduleDetailResponseDto = ScheduleDetailResponseDto.builder()
+            scheduleDetailResponse = ScheduleDetailResponse.builder()
                     .schedule(schedule)
                     .build();
-            return scheduleDetailResponseDto;
+            return scheduleDetailResponse;
         }
         return null;
     }
 
     @Override
-    public Long makeSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto) {
-        Schedule schedule = scheduleCreateRequestDto.toEntity(meetingRepository);
+    public Long makeSchedule(ScheduleCreateRequest scheduleCreateRequest) {
+        Schedule schedule = scheduleCreateRequest.toEntity(meetingRepository);
         scheduleRepository.save(schedule);
         return schedule.getId();
     }
 
     @Override
     @Transactional
-    public void updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
-        Schedule schedule = scheduleUpdateRequestDto.toEntity();
+    public void updateSchedule(ScheduleUpdateRequest scheduleUpdateRequest) {
+        Schedule schedule = scheduleUpdateRequest.toEntity();
         scheduleRepository.save(schedule);
     }
 

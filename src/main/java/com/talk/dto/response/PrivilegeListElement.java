@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PrivilegeListElementDto {
+public class PrivilegeListElement {
 
     private Long privilegeId;
     private String privilegeName;

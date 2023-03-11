@@ -4,9 +4,9 @@ import com.talk.domain.*;
 import com.talk.domain.enumpack.AuthProvider;
 import com.talk.domain.enumpack.Color;
 import com.talk.domain.enumpack.Role;
-import com.talk.dto.response.MemberDetailResponseDto;
-import com.talk.dto.response.MemberListResponseDto;
-import com.talk.dto.response.MemberResponseDto;
+import com.talk.dto.response.MemberDetailResponse;
+import com.talk.dto.response.MemberListResponse;
+import com.talk.dto.response.MemberResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,28 +24,28 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
-    public MemberListResponseDto getAllMemberListofMeeting(Long meetingId) {
-        List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
+    public MemberListResponse getAllMemberListofMeeting(Long meetingId) {
+        List<MemberResponse> memberResponses = new ArrayList<>();
         if (meetingRepository.findById(meetingId).isPresent()) {
             Meeting meeting = meetingRepository.findById(meetingId).get();
             for (MemberMeeting memberMeeting : meeting.getMemberMeetings()) {
-                MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                MemberResponse memberResponse = MemberResponse.builder()
                         .member(memberMeeting.getMember())
                         .build();
-                memberResponseDtos.add(memberResponseDto);
+                memberResponses.add(memberResponse);
             }
         }
-        return MemberListResponseDto.builder()
-                .memberResponseDtos(memberResponseDtos)
+        return MemberListResponse.builder()
+                .memberResponses(memberResponses)
                 .build();
     }
 
     @Override
-    public MemberDetailResponseDto getMemberDetail(Long memberId, Long meetingId) {
+    public MemberDetailResponse getMemberDetail(Long memberId, Long meetingId) {
         // TODO : userId가 groupId에 속해있지 않으면 예외처리
         Member member = memberRepository.findById(memberId).get();
 
-        return MemberDetailResponseDto.builder()
+        return MemberDetailResponse.builder()
                 .member(member)
                 .build();
     }
@@ -71,17 +71,17 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberListResponseDto getAllMemberList() {
-        List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
+    public MemberListResponse getAllMemberList() {
+        List<MemberResponse> memberResponses = new ArrayList<>();
         List<Member> members = memberRepository.findAll();
             for (Member member : members) {
-                MemberResponseDto memberResponseDto = MemberResponseDto.builder()
+                MemberResponse memberResponse = MemberResponse.builder()
                         .member(member)
                         .build();
-                memberResponseDtos.add(memberResponseDto);
+                memberResponses.add(memberResponse);
             }
-        return MemberListResponseDto.builder()
-                .memberResponseDtos(memberResponseDtos)
+        return MemberListResponse.builder()
+                .memberResponses(memberResponses)
                 .build();
     }
 }

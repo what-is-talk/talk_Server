@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PositionResponseDto {
+public class PositionResponse {
 
     private String name;
     private Color color;

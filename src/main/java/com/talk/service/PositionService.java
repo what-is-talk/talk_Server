@@ -1,14 +1,11 @@
 package com.talk.service;
 
 import com.talk.domain.*;
-import com.talk.domain.enumpack.Color;
 import com.talk.dto.PositionModify;
 import com.talk.dto.request.PositionCreateRequest;
 import com.talk.dto.response.*;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Service;;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,21 +22,21 @@ public class PositionService {
     private final MemberRepository memberRepository;
     private final PrivilegeRepository privilegeRepository;
 
-    public PositionWholeResponseDto positionHome(HashMap<String, Long> map) {
+    public PositionWholeResponse positionHome(HashMap<String, Long> map) {
 
-        List<PositionResponseDto> positionList = new ArrayList<>();
+        List<PositionResponse> positionList = new ArrayList<>();
         Meeting meeting = meetingRepository.findById(map.get("groupId")).get();
         List<Position> positions = positionRepository.findByMeeting(meeting);
 
         for (Position el : positions) {
             List<MemberPosition> memberPositions = memberPositionRepository.findByPositionId(el.getId());
             Integer memberCount = memberPositions.size();
-            PositionResponseDto positionResponse = PositionResponseDto.builder().name(el.getName())
+            PositionResponse positionResponse = PositionResponse.builder().name(el.getName())
                     .color(el.getColor()).memberCount(memberCount).build();
             positionList.add(positionResponse);
         }
 
-        return PositionWholeResponseDto.builder().positionList(positionList).build();
+        return PositionWholeResponse.builder().positionList(positionList).build();
 
     }
 
@@ -47,21 +44,21 @@ public class PositionService {
 
         List<MemberPosition> memberPositions = memberPositionRepository.findByPositionId(map.get("positionId"));
         List<PositionPrivilege> positionPrivileges = positionPrivilegeRepository.findByPositionId(map.get("positionId"));
-        List<PositionMemberElementDto> memberList = new ArrayList<>();
-        List<PrivilegeListElementDto> privilegeList = new ArrayList<>();
+        List<PositionMemberElement> memberList = new ArrayList<>();
+        List<PrivilegeListElement> privilegeList = new ArrayList<>();
 
         Position position = positionRepository.findById(map.get("positionId")).get();
 
         for (MemberPosition memberPosition : memberPositions) {
             Member member = memberPosition.getMember();
-            PositionMemberElementDto positionMemberElement = PositionMemberElementDto.builder().memberId(member.getId())
+            PositionMemberElement positionMemberElement = PositionMemberElement.builder().memberId(member.getId())
                     .memberName(member.getName()).profileImage(member.getProfileImage()).build();
             memberList.add(positionMemberElement);
         }
 
         for (PositionPrivilege positionPrivilege : positionPrivileges) {
             Privilege privilege = positionPrivilege.getPrivilege();
-            PrivilegeListElementDto privilegeListElement = PrivilegeListElementDto.builder().privilegeId(privilege.getId())
+            PrivilegeListElement privilegeListElement = PrivilegeListElement.builder().privilegeId(privilege.getId())
                     .privilegeName(privilege.getName()).build();
             privilegeList.add(privilegeListElement);
         }

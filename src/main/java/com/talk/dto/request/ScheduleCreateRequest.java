@@ -1,13 +1,15 @@
 package com.talk.dto.request;
 
+import com.talk.domain.MeetingRepository;
 import com.talk.domain.Schedule;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class ScheduleUpdateRequestDto {
-    private Long scheduleId;
+public class ScheduleCreateRequest {
+
+    private Long groupId;
     private String title;
     private String description;
     private LocalDateTime startDate;
@@ -16,9 +18,9 @@ public class ScheduleUpdateRequestDto {
     private boolean includingEndDate;
     private LocalDateTime reminder;
 
-    public Schedule toEntity() {
-        return Schedule.builder()
-                .id(scheduleId)
+    public Schedule toEntity(MeetingRepository meetingRepository) {
+        if (meetingRepository.findById(groupId).isPresent())
+            return Schedule.builder()
                 .title(title)
                 .description(description)
                 .startDate(startDate)
@@ -26,6 +28,9 @@ public class ScheduleUpdateRequestDto {
                 .includingTime(includingTime)
                 .includingEndDate(includingEndDate)
                 .reminder(reminder)
+                .meeting(meetingRepository.findById(groupId).get())
                 .build();
+        return null; // TODO : 예외처리 필요
     }
+
 }

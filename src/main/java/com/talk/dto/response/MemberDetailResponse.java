@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MemberDetailResponseDto {
+public class MemberDetailResponse {
     private final String userImage;
     private final String userName;
     private final LocalDateTime joinedDate;
     private final List<String> userPosition;
 
     @Builder
-    public MemberDetailResponseDto (Member member) {
+    public MemberDetailResponse(Member member) {
         userImage = member.getProfileImage();
         userName = member.getName();
         joinedDate = member.getCreatedDate();

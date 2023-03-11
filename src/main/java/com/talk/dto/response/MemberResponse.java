@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class MemberResponseDto {
+public class MemberResponse {
     private final Long userId;
     private final String userImage;
     private final String userName;
     private final List<String> userPosition;
 
     @Builder
-    public MemberResponseDto(Member member) {
+    public MemberResponse(Member member) {
         userId = member.getId();
         userImage = member.getProfileImage();
         userName = member.getName();

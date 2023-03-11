@@ -2,7 +2,7 @@ package com.talk.service;
 
 import com.talk.domain.*;
 import com.talk.dto.request.MeetingCreateRequest;
-import com.talk.dto.response.InviteCodeResponseDto;
+import com.talk.dto.response.InviteCodeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +41,10 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public InviteCodeResponseDto getInviteCode(Long meetingId) {
+    public InviteCodeResponse getInviteCode(Long meetingId) {
         Meeting meeting = meetingRepository.findById(meetingId).get();
 
-        return InviteCodeResponseDto.builder()
+        return InviteCodeResponse.builder()
                 .meeting(meeting)
                 .build();
     }
